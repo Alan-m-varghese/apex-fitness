@@ -60,7 +60,7 @@
 
   /* ── Nav ── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 160;
     display: flex; justify-content: space-between; align-items: center;
     padding: 24px 48px;
     transition: background 0.4s, padding 0.4s;
@@ -682,7 +682,8 @@
     width: 40px; height: 40px;
     background: none; border: none;
     cursor: pointer; padding: 4px;
-    z-index: 101;
+    z-index: 200;
+    position: relative;
   }
   .hamburger span {
     display: block;
@@ -697,7 +698,7 @@
 
   /* ── Mobile Nav Drawer ── */
   .nav-drawer {
-    position: fixed; inset: 0; z-index: 99;
+    position: fixed; inset: 0; z-index: 150;
     background: rgba(10,10,10,0.98);
     backdrop-filter: blur(24px);
     display: flex; flex-direction: column;
@@ -1239,6 +1240,32 @@
 </footer>
 
 <script>
+  // Hamburger Menu
+  const hamburger = document.getElementById('hamburger');
+  const navDrawer = document.getElementById('navDrawer');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navDrawer.classList.toggle('open');
+    document.body.style.overflow = navDrawer.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // Close drawer when a link or button inside it is clicked
+  navDrawer.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Disable cursor on touch devices
+  if ('ontouchstart' in window) {
+    document.body.style.cursor = 'auto';
+    const cursorEl = document.getElementById('cursor');
+    if (cursorEl) cursorEl.style.display = 'none';
+  }
+
   // Custom Cursor
   const cursor = document.getElementById('cursor');
   const dot = cursor.querySelector('.cursor__dot');
